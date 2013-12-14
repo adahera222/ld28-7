@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
-function onMouseDown() {
+var id:int;
 
+function OnMouseDown() {
 	Debug.Log(this);
-
 }

@@ -8,6 +8,10 @@ Author:
 Team Tampere Threesome
 */
 
+function Start() {
+	transform.position = new Vector3(-100, 80, -100);
+}
+
 function Update() {
 
 	var translationX: float = Input.GetAxis("Horizontal");
@@ -24,7 +28,7 @@ function Update() {
 	var scrollDistance: int = 5;
 	var scrollSpeed: float = 70;
 
-	if (mousePosX < scrollDistance) {
+	/*if (mousePosX < scrollDistance) {
 		transform.Translate(-1, 0, 1);
 	}
 
@@ -38,7 +42,7 @@ function Update() {
 
 	if (mousePosY >= Screen.height - scrollDistance) {
 		transform.Translate(1, 0, 1);
-	}
+	}*/
 
 	var MainCamera:GameObject = GameObject.Find("Main Camera");
 

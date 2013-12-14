@@ -1,5 +1,7 @@
 ﻿#pragma strict
 
+import SimpleJson;
+
 var floor:GameObject;
 var block:GameObject;
 
@@ -7,6 +9,11 @@ function Start () {
 	//init function
 
 	buildWorld();
+
+}
+
+function Update () {
+	//tick function
 
 }
 
@@ -29,10 +36,5 @@ function buildWorld() {
 
         }
     }*/
-
-}
-
-function Update () {
-	//tick function
 
 }
