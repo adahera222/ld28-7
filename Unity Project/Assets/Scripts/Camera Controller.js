@@ -8,8 +8,16 @@ Author:
 Team Tampere Threesome
 */
 
+var scrollDistance: int = 5;
+var scrollSpeed: float = 70;
+
 function Start() {
+
+	//initial position
 	transform.position = new Vector3(-100, 80, -100);
+
+	//TODO: position child camera as well
+
 }
 
 function Update() {
@@ -24,9 +32,6 @@ function Update() {
 
 	var mousePosX = Input.mousePosition.x;
 	var mousePosY = Input.mousePosition.y;
-
-	var scrollDistance: int = 5;
-	var scrollSpeed: float = 70;
 
 	/*if (mousePosX < scrollDistance) {
 		transform.Translate(-1, 0, 1);

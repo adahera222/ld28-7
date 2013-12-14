@@ -8,7 +8,7 @@ var block:GameObject;
 function Start () {
 	//init function
 
-	buildWorld();
+	BuildWorld();
 
 }
 
@@ -17,24 +17,29 @@ function Update () {
 
 }
 
-function buildWorld() {
+function BuildWorld() {
 
 	//builds the world
 
 	//add floor
 	Instantiate(floor, Vector3(0, -1, 0), Quaternion.identity);
 
-	Instantiate(block, Vector3(0, 0, 0), Quaternion.identity);
-
-
-	 /*for (var y = 0; y < 5; y++) {
+	for (var y = 0; y < 5; y++) {
         for (var x = 0; x < 5; x++) {
 
-        	Debug.Log("Block added at: " + x + ", " + y + ", " + 0);
-
-
+			AddBlock(block, Vector3(x, y, 0));
 
         }
-    }*/
+    }
+
+}
+
+//adds block to the game world
+function AddBlock(prefab, translate) {
+
+	//clone the prefab
+	Instantiate(prefab, translate, Quaternion.identity);
+
+
 
 }
