@@ -9,7 +9,7 @@ Team Tampere Threesome
 */
 
 var scrollDistance: int = 5;
-var scrollSpeed: float = 70;
+var scrollSpeed: float = .70;
 
 function Start() {
 
@@ -22,11 +22,8 @@ function Start() {
 
 function Update() {
 
-	var translationX: float = Input.GetAxis("Horizontal");
-	var translationY: float = Input.GetAxis("Vertical");
-
-	var fastTranslationX: float = 2 * Input.GetAxis("Horizontal");
-	var fastTranslationY: float = 2 * Input.GetAxis("Vertical");
+	var translationX: float = scrollSpeed * Input.GetAxis("Horizontal");
+	var translationY: float = scrollSpeed * Input.GetAxis("Vertical");
 
 	transform.Translate(translationX + translationY, 0, translationY - translationX);
 
