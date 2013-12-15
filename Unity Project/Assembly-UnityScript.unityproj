@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\BlockEntity.js" />
      <Compile Include="Assets\Scripts\Camera Controller.js" />
      <Compile Include="Assets\Scripts\Game Contoller.js" />
+     <Compile Include="Assets\Scripts\Hovering.js" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />

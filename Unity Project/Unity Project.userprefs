@@ -1,10 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Standard Assets/Character Controllers/Camera Controller.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Spinning Cube.js">
     <Files>
-      <File FileName="Assets/Standard Assets/Character Controllers/Camera Controller.js" Line="147" Column="2" />
-      <File FileName="Assets/Sphere Controller.js" Line="1" Column="1" />
-      <File FileName="Assets/Standard Assets/Character Controllers/Sources/Scripts/ThirdPersonController.js" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BlockEntity.js" Line="2" Column="1" />
+      <File FileName="Assets/Scripts/Camera Controller.js" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Game Contoller.js" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Spinning Cube.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
