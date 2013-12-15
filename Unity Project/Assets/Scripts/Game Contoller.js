@@ -72,6 +72,10 @@ function Update () {
 		}
 		
 	}
+	
+	if(Input.GetKeyDown('tab')) {
+		changeType();
+	}
 
 }
 
@@ -141,7 +145,7 @@ function blockTexture(type) {
 	var textures = new Hashtable();
 	textures['ground'] = 'groundCubeFull';
 	textures['iron'] = 'ironCubeFull';
-	textures['life'] = 'lifeCubeFull';
+	textures['life'] = 'lifeCube';
 	textures['sand'] = 'sandCubeFull';
 	textures['rock'] = 'rockCubeFull';
 	textures['water'] = 'waterCubeFull';
@@ -177,11 +181,15 @@ function changeType() {
 	types.push('rock');
 	types.push('water');
 	
-	typenum = Types.indexOf(blockOfTheDay);
+	typenum = 0;
+	for(var i = 0; i < types.length; i++) {
+		if(blockOfTheDay == types[i]) 
+			typenum = i;
+	}
 	
-	if(++typenum > types.length) 
+	if(++typenum >= types.length) 
 		typenum = 0;
 		
-	blockOfTheDay = types[typenum];
+	SetBlockOfTheDay(types[typenum]);
 	
 }
