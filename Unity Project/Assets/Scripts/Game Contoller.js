@@ -13,7 +13,9 @@ function Start () {
 }
 
 function Update () {
-	//tick function
+	//tick functio
+	
+
 
 }
 
@@ -22,7 +24,7 @@ function BuildWorld() {
 
 	//builds the world
 
-	var url = "http://162.243.64.58:49162/blocks.json";
+	var url = "http://162.243.64.58:49163/blocks.json";
 	var response = new WWW(url);
 	yield response;
 
@@ -46,6 +48,7 @@ function AddBlock(translate:UnityEngine.Vector3, texture:UnityEngine.Texture) {
 	block.renderer.material.mainTexture = texture; //assigns it a texture
 
 	block.AddComponent("BlockEntity");
+	block.AddComponent(MeshCollider);
 
 	var behaviour = block.GetComponent("BlockEntity");
 	Debug.Log(behaviour);
@@ -55,7 +58,7 @@ function AddBlock(translate:UnityEngine.Vector3, texture:UnityEngine.Texture) {
 
 function sendBlock() {
 
-	var url = "http://162.243.64.58:49162/";
+	var url = "http://162.243.64.58:49163";
 	var form = new WWWForm();
 
 	form.AddField( "block['type']", "typeid" );
