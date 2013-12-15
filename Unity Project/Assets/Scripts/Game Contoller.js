@@ -56,11 +56,15 @@ function Update () {
 		
 		//Debug.Log(hit.triangleIndex);
 		
+		var texture = Resources.Load("Blocks/sandCubeFull", Texture2D);
+		var translate = crosshair.transform.position;
+		
 		if(Input.GetMouseButtonDown(0)) {
-			var texture = Resources.Load("Blocks/sandCubeFull", Texture2D);
-			var translate = crosshair.transform.position;
-
 			AddBlock(translate, texture);
+		}
+		
+		if(Input.GetMouseButtonDown(1)) {
+			Destroy(targetCube);
 		}
 		
 	}
@@ -103,7 +107,6 @@ function AddBlock(translate:UnityEngine.Vector3, texture:UnityEngine.Texture) {
 	var behaviour = block.GetComponent("BlockEntity");
 
 }
-
 
 function sendBlock() {
 

@@ -53,7 +53,7 @@ function Update() {
 		MainCamera.camera.orthographicSize = MainCamera.camera.orthographicSize - 4;
 	}
 
-	if (Input.GetAxis("Mouse ScrollWheel") < 0 && MainCamera.camera.orthographicSize < 80) {
+	if (Input.GetAxis("Mouse ScrollWheel") < 0 && MainCamera.camera.orthographicSize < 20) {
 		MainCamera.camera.orthographicSize = MainCamera.camera.orthographicSize + 4;
 	}
 	
