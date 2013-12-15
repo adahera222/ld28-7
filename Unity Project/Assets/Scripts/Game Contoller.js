@@ -5,12 +5,19 @@ var blockOfTheDay = "sand";
 function Start () {
 	//init function
 
+	for(var x = -25; x < 25; ++x) {
+		for(var z = -25; z < 25; ++z) {
+			var texture = blockTexture("water");
+			var translate = Vector3(x, -1, z);
+			AddBlock(translate, texture);
+		}
+	}
+	
 	LoadBlockOfTheDay(SetBlockOfTheDay);
 	LoadWorld(BuildWorld);
 	
 
 	//sendBlock();
-
 
 }
 

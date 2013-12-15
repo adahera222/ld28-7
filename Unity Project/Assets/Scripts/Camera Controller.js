@@ -50,11 +50,11 @@ function Update() {
 	var MainCamera:GameObject = GameObject.Find("Main Camera");
 
 	if (Input.GetAxis("Mouse ScrollWheel") > 0 && MainCamera.camera.orthographicSize > 4) {
-		MainCamera.camera.orthographicSize = MainCamera.camera.orthographicSize - 4;
+		MainCamera.camera.orthographicSize -= 1;
 	}
 
 	if (Input.GetAxis("Mouse ScrollWheel") < 0 && MainCamera.camera.orthographicSize < 20) {
-		MainCamera.camera.orthographicSize = MainCamera.camera.orthographicSize + 4;
+		MainCamera.camera.orthographicSize += 1;
 	}
 	
 	
