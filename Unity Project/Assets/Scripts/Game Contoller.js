@@ -1,9 +1,13 @@
 ﻿import SimpleJSON;
 
+var blockOfTheDay = "sand";
+
 function Start () {
 	//init function
 
-	BuildWorld();
+	LoadBlockOfTheDay(SetBlockOfTheDay);
+	LoadWorld(BuildWorld);
+	
 
 	//sendBlock();
 
@@ -56,7 +60,7 @@ function Update () {
 		
 		//Debug.Log(hit.triangleIndex);
 		
-		var texture = Resources.Load("Blocks/sandCubeFull", Texture2D);
+		var texture = blockTexture(blockOfTheDay);
 		var translate = crosshair.transform.position;
 		
 		if(Input.GetMouseButtonDown(0)) {
@@ -71,20 +75,44 @@ function Update () {
 
 }
 
+function LoadBlockOfTheDay(callback) {
+	var url = "http://palikka.koodimonni.fi/blocks/typetoday.json";
+	var response = new WWW(url);
+	yield response;
 
-function BuildWorld() {
+	callback(response.text);
+}
 
-	//builds the world
+function SetBlockOfTheDay(type) {
+	
+	//set global
+	blockOfTheDay = type;
+	
+	GameObject.Find("Spinning Block").renderer.material.mainTexture = blockTexture(type); //assigns it a texture
+	GameObject.Find("Block Type").guiText.text = type;
+}
 
+
+function LoadWorld(callback) {
+	
 	var url = "http://palikka.koodimonni.fi/blocks.json";
 	var response = new WWW(url);
 	yield response;
 
 	var worldData = JSON.Parse(response.text);
 
+	callback(worldData);
+
+}
+
+
+function BuildWorld(worldData) {
+
+	//builds the world
+
 	for(var block:SimpleJSON.JSONNode in worldData) {
 
-		var texture = Resources.Load("Blocks/sandCubeFull", Texture2D);
+		var texture = blockTexture('sand');
 		var translate = Vector3(block['x'].AsFloat, block['y'].AsFloat, block['z'].AsFloat);
 
 		AddBlock(translate, texture);
@@ -108,6 +136,20 @@ function AddBlock(translate:UnityEngine.Vector3, texture:UnityEngine.Texture) {
 
 }
 
+function blockTexture(type) {
+
+	var textures = new Hashtable();
+	textures['ground'] = 'groundCubeFull';
+	textures['iron'] = 'ironCubeFull';
+	textures['life'] = 'lifeCubeFull';
+	textures['sand'] = 'sandCubeFull';
+	textures['rock'] = 'rockCubeFull';
+	textures['water'] = 'waterCubeFull';
+	
+	return Resources.Load("Blocks/" + textures[type], Texture2D);
+
+}
+
 function sendBlock() {
 
 	var url = "http://palikka.koodimonni.fi/blocks";
@@ -123,4 +165,23 @@ function sendBlock() {
 	Debug.Log(request.text);
 	
 		
+}
+
+function changeType() {
+	
+	var types = new Array();
+	types.push('ground'); 
+	types.push('iron');
+	types.push('life');
+	types.push('sand');
+	types.push('rock');
+	types.push('water');
+	
+	typenum = Types.indexOf(blockOfTheDay);
+	
+	if(++typenum > types.length) 
+		typenum = 0;
+		
+	blockOfTheDay = types[typenum];
+	
 }
