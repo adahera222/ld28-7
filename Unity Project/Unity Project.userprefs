@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game Controller.js">
     <Files>
-      <File FileName="Assets/Scripts/Game Controller.js" Line="80" Column="4" />
-      <File FileName="Assets/Scripts/Camera Controller.js" Line="71" Column="28" />
+      <File FileName="Assets/Scripts/Game Controller.js" Line="107" Column="1" />
+      <File FileName="Assets/Scripts/Camera Controller.js" Line="1" Column="1" />
+      <File FileName="Assets/Plugins/Socket Events.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

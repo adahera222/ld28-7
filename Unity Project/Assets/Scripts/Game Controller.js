@@ -105,6 +105,13 @@ function Update () {
 				case "welcome" :
 				
 					var block:String = json['params']['block'];
+					var clientip:String = json['params']['client_ip'];
+					var timeleft = json['param']['timeleft'].AsFloat;
+					
+					Debug.Log(message);
+					
+					Debug.Log("Client IP is: " + clientip);
+					
 					SetBlockOfTheDay(block);
 					
 					Debug.Log("Block of the day is: " + block);
@@ -137,6 +144,8 @@ function Update () {
 		}
 		
 	}
+	
+	
 	
 	//Debug.Log(socket.SocketAlive());
 
