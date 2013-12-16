@@ -13,7 +13,7 @@ public class SocketEvents {
 	//using (ws = new WebSocket ("ws://palikka.koodimonni.fi/chat"))
 
 	public SocketEvents () {
-		using (ws = new WebSocket ("ws://172.20.10.5:5000/chat"))
+		using (ws = new WebSocket ("ws://palikka.koodimonni.fi/chat"))
 		{
 			
 			ws.OnOpen += (sender, e) =>

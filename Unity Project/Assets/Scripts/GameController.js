@@ -9,7 +9,6 @@ function Start () {
 
 	connectToWebSocket();
 	LoadWorld(BuildWorld);
-	//LoadBlockOfTheDay(SetBlockOfTheDay);
 
 }
 
@@ -170,7 +169,7 @@ function BuildWorld(worldData) {
 
 	//builds the world
 	
-	var r = 18;
+	/*ar r = 18;
 
 	for(var x = -r; x < r; ++x) {
 		for(var z = -r; z < r; ++z) {
@@ -205,7 +204,7 @@ function BuildWorld(worldData) {
 			}
 		}
 	}
-
+	*/
 	for(var block:SimpleJSON.JSONNode in worldData) {
 
 		texture = blockTexture('sand');
