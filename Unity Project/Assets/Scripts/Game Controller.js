@@ -67,8 +67,8 @@ function Update () {
 		}
 
 		if(Input.GetMouseButtonDown(1)) {
-			removeBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
-			Destroy(targetCube);
+			removeBlock(parseInt(targetCube.transform.position.x), parseInt(targetCube.transform.position.y), parseInt(targetCube.transform.position.z));
+			//Destroy(targetCube);
 		}
 
 	}
@@ -92,6 +92,8 @@ function Update () {
 		Debug.Log(message);
 		
 		var json = JSON.Parse(message);
+		var skin:Texture;
+		var pos:Vector3;
 		
 		//check if it was valid json
 		if(json != null) {
@@ -111,15 +113,18 @@ function Update () {
 					
 				case "add_block" :
 					
-					var pos = new Vector3(json['params']['x'].AsFloat, json['params']['y'].AsFloat, json['params']['z'].AsFloat);
-					var skin = blockTexture(blockOfTheDay);
+					pos = new Vector3(json['params']['x'].AsFloat, json['params']['y'].AsFloat, json['params']['z'].AsFloat);
+					skin = blockTexture(blockOfTheDay);
 					AddBlock(pos, skin);
 					
 					break;
 					
-				case "delete_block" :
+				case "remove_block" :
 				
 					Debug.Log("Action REMOVE BLOCK initiated");
+					
+					pos = new Vector3(json['params']['x'].AsFloat, json['params']['y'].AsFloat, json['params']['z'].AsFloat);
+					deleteBlock(pos);
 					
 					break;
 				
@@ -240,6 +245,20 @@ function AddBlock(translate:UnityEngine.Vector3, texture:UnityEngine.Texture) {
 	
 	//sendBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
 
+}
+
+function deleteBlock(translate:UnityEngine.Vector3) {
+	
+	var colliders = Physics.OverlapSphere(translate, 1);
+	if(colliders.length > 0) {
+		for(var collider:MeshCollider in colliders) {
+			if(collider.gameObject.transform.position == translate) {
+				Destroy(collider.gameObject);
+				break;
+			}
+		}
+	}
+	
 }
 
 function blockTexture(type) {
