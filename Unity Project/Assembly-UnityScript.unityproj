@@ -48,9 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BlockEntity.js" />
      <Compile Include="Assets\Scripts\Camera Controller.js" />
-     <Compile Include="Assets\Scripts\GameController.js" />
+     <Compile Include="Assets\Scripts\Game Controller.js" />
      <Compile Include="Assets\Scripts\Hovering.js" />
-     <Compile Include="Assets\Scripts\Socket.js" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />

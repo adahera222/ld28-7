@@ -205,6 +205,7 @@ function BuildWorld(worldData) {
 		}
 	}
 	*/
+	
 	for(var block:SimpleJSON.JSONNode in worldData) {
 
 		texture = blockTexture('sand');

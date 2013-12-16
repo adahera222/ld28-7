@@ -49,6 +49,5 @@
 -i:UnityEditor
 'Assets/Scripts/BlockEntity.js'
 'Assets/Scripts/Camera Controller.js'
-'Assets/Scripts/GameController.js'
+'Assets/Scripts/Game Controller.js'
 'Assets/Scripts/Hovering.js'
-'Assets/Scripts/Socket.js'
