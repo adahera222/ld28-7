@@ -48,13 +48,17 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BlockEntity.js" />
      <Compile Include="Assets\Scripts\Camera Controller.js" />
-     <Compile Include="Assets\Scripts\Game Contoller.js" />
+     <Compile Include="Assets\Scripts\GameController.js" />
      <Compile Include="Assets\Scripts\Hovering.js" />
+     <Compile Include="Assets\Scripts\Socket.js" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />
  <Reference Include="Library\ScriptAssemblies\Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\Plugins\websocket-sharp">
+ <HintPath>Assets\Plugins\websocket-sharp.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

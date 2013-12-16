@@ -11,11 +11,16 @@ Team Tampere Threesome
 var scrollDistance: int = 5;
 var scrollSpeed: float = .70;
 
+var rotation = 0;
+var qTo = Quaternion.identity;
+
 function Start() {
 
 	//initial position
 	transform.position = new Vector3(0, 0, 0);
-	 GameObject.Find("Main Camera").camera.orthographicSize = 6;
+	GameObject.Find("Main Camera").camera.orthographicSize = 6;
+	
+	rotation = transform.rotation.eulerAngles.y;
 
 	//TODO: position child camera as well
 
@@ -61,12 +66,15 @@ function Update() {
 	//pivots
 	
 	if(Input.GetKeyDown("q")){
-		transform.Rotate(0, 90, 0);
+		rotation += 90;
+		 qTo = Quaternion.Euler(0, rotation, 0);
 	}
 	
 	if(Input.GetKeyDown("e")){
-		transform.Rotate(0, -90, 0);
+		rotation -= 90;
+		 qTo = Quaternion.Euler(0, rotation, 0);
 	}
 	
+	transform.rotation = Quaternion.RotateTowards(transform.rotation, qTo, 500 * Time.deltaTime);
 
 }
