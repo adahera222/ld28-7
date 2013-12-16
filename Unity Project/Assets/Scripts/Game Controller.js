@@ -7,7 +7,7 @@ var socket:SocketEvents;
 function Start () {
 	//init function
 
-	connectToWebSocket();
+	ConnectToWebSocket();
 	LoadWorld(BuildWorld);
 
 }
@@ -58,23 +58,24 @@ function Update () {
 
 		//Debug.Log(hit.triangleIndex);
 
-		var texture = blockTexture(blockOfTheDay);
+		var texture = BlockTexture(blockOfTheDay);
 		var translate = crosshair.transform.position;
 
 		if(Input.GetMouseButtonDown(0)) {
-			sendBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
+			SendBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
 			//AddBlock(translate, texture);
 		}
 
 		if(Input.GetMouseButtonDown(1)) {
-			removeBlock(parseInt(targetCube.transform.position.x), parseInt(targetCube.transform.position.y), parseInt(targetCube.transform.position.z));
+			RemoveBlock(parseInt(targetCube.transform.position.x), parseInt(targetCube.transform.position.y), parseInt(targetCube.transform.position.z));
 			//Destroy(targetCube);
 		}
 
 	}
 
+	//change block type for dev purposes
 	if(Input.GetKeyDown('tab')) {
-		changeType();
+		ChangeType();
 	}
 	
 	if(Input.GetKey(KeyCode.Escape)) {
@@ -86,10 +87,9 @@ function Update () {
 
 		
 		//handle message
-		
 		var message = socket.FetchLastMessage();
 		
-		Debug.Log(message);
+		//Debug.Log(message);
 		
 		var json = JSON.Parse(message);
 		var skin:Texture;
@@ -114,23 +114,21 @@ function Update () {
 				case "add_block" :
 					
 					pos = new Vector3(json['params']['x'].AsFloat, json['params']['y'].AsFloat, json['params']['z'].AsFloat);
-					skin = blockTexture(blockOfTheDay);
+					skin = BlockTexture(blockOfTheDay);
 					AddBlock(pos, skin);
 					
 					break;
 					
 				case "remove_block" :
-				
-					Debug.Log("Action REMOVE BLOCK initiated");
 					
 					pos = new Vector3(json['params']['x'].AsFloat, json['params']['y'].AsFloat, json['params']['z'].AsFloat);
-					deleteBlock(pos);
+					DeleteBlock(pos);
 					
 					break;
 				
 				default: 
 				
-					Debug.Log("Unknown action");
+					Debug.Log("Unknown action: " + message);
 				
 					break;
 			
@@ -144,7 +142,7 @@ function Update () {
 
 }
 
-//deprecated: uses websocket connection welcome message instead
+//DEPRECATED: use websocket connection welcome message instead
 function LoadBlockOfTheDay(callback) {
 	var url = "http://palikka.koodimonni.fi/blocks/typetoday.json";
 	var response = new WWW(url);
@@ -158,7 +156,7 @@ function SetBlockOfTheDay(type) {
 	//set global
 	blockOfTheDay = type;
 
-	GameObject.Find("Spinning Block").renderer.material.mainTexture = blockTexture(type); //assigns it a texture
+	GameObject.Find("Spinning Block").renderer.material.mainTexture = BlockTexture(type); //assigns it a texture
 	GameObject.Find("Spinning Block").renderer.enabled = true;
 	GameObject.Find("Block Type").GetComponent(TextMesh).text = type;
 
@@ -167,11 +165,15 @@ function SetBlockOfTheDay(type) {
 
 function LoadWorld(callback) {
 
+	Debug.Log("Loading world…");
+	
 	var url = "http://palikka.koodimonni.fi/blocks.json";
 	var response = new WWW(url);
 	yield response;
 
 	var worldData = JSON.Parse(response.text);
+	
+	Debug.Log("World loaded!");
 
 	callback(worldData);
 
@@ -187,7 +189,7 @@ function BuildWorld(worldData) {
 	for(var x = -r; x < r; ++x) {
 		for(var z = -r; z < r; ++z) {
 			if( (x*x + z*z ) < (r*r) ) {
-				var texture = blockTexture("water");
+				var texture = BlockTexture("water");
 				var translate = Vector3(x, -1, z);
 				AddBlock(translate, texture);
 			}
@@ -199,7 +201,7 @@ function BuildWorld(worldData) {
 	for(x = -r; x < r; ++x) {
 		for(z = -r; z < r; ++z) {
 			if( (x*x + z*z ) < (r*r) ) {
-				texture = blockTexture("sand");
+				texture = BlockTexture("sand");
 				translate = Vector3(x, 0, z);
 				AddBlock(translate, texture);
 			}
@@ -211,7 +213,7 @@ function BuildWorld(worldData) {
 	for(x = -r; x < r; ++x) {
 		for(z = -r; z < r; ++z) {
 			if( (x*x + z*z ) < (r*r) ) {
-				texture = blockTexture("ground");
+				texture = BlockTexture("ground");
 				translate = Vector3(x, 1, z);
 				AddBlock(translate, texture);
 			}
@@ -221,7 +223,7 @@ function BuildWorld(worldData) {
 	
 	for(var block:SimpleJSON.JSONNode in worldData) {
 
-		texture = blockTexture('sand');
+		texture = BlockTexture('sand');
 		translate = Vector3(block['x'].AsFloat, block['y'].AsFloat, block['z'].AsFloat);
 
 		AddBlock(translate, texture);
@@ -243,25 +245,30 @@ function AddBlock(translate:UnityEngine.Vector3, texture:UnityEngine.Texture) {
 
 	var behaviour = block.GetComponent("BlockEntity");
 	
-	//sendBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
+	//SendBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
 
 }
 
-function deleteBlock(translate:UnityEngine.Vector3) {
-	
+function GetBlockAt(translate:UnityEngine.Vector3) {
 	var colliders = Physics.OverlapSphere(translate, 1);
 	if(colliders.length > 0) {
 		for(var collider:MeshCollider in colliders) {
 			if(collider.gameObject.transform.position == translate) {
-				Destroy(collider.gameObject);
+				return collider.gameObject;
 				break;
 			}
 		}
 	}
+	return null;
+}
+
+function DeleteBlock(translate:UnityEngine.Vector3) {
+	
+	Destroy(GetBlockAt(translate));
 	
 }
 
-function blockTexture(type) {
+function BlockTexture(type) {
 
 	var textures = new Hashtable();
 	textures['ground'] = 'groundCubeFull';
@@ -275,19 +282,21 @@ function blockTexture(type) {
 
 }
 
-function sendBlock(x:int, y:int, z:int) {
+function SendBlock(x:int, y:int, z:int) {
 
-	socket.SendMessage('{"action":"add_block","params":{"x":'+ x +',"y":'+ y +',"z":'+ z +'}}');
-
-}
-
-function removeBlock(x:int, y:int, z:int) {
-
-	socket.SendMessage('{"action":"remove_block","params":{"x":'+ x +',"y":'+ y +',"z":'+ z +'}}');;
+	var hash = Md5Sum("add_block" + "suola");
+	socket.SendMessage('{"action":"add_block","params":{"x":'+ x +',"y":'+ y +',"z":'+ z +',"hash":"' + hash + '"}}');
 
 }
 
-function changeType() {
+function RemoveBlock(x:int, y:int, z:int) {
+
+	var hash = Md5Sum("add_block" + "suola");
+	socket.SendMessage('{"action":"remove_block","params":{"x":'+ x +',"y":'+ y +',"z":'+ z +',"hash":"' + hash + '"}}');
+
+}
+
+function ChangeType() {
 
 	var types = new Array();
 	types.push('ground');
@@ -310,8 +319,27 @@ function changeType() {
 
 }
 
-function connectToWebSocket() {
+function ConnectToWebSocket() {
 	
 	socket = new SocketEvents();
 	
+}
+
+function Md5Sum(strToEncrypt: String) {
+	var encoding = System.Text.UTF8Encoding();
+	var bytes = encoding.GetBytes(strToEncrypt);
+ 
+	// encrypt bytes
+	var md5 = System.Security.Cryptography.MD5CryptoServiceProvider();
+	var hashBytes:byte[] = md5.ComputeHash(bytes);
+ 
+	// Convert the encrypted bytes back to a string (base 16)
+	var hashString = "";
+ 
+	for (var i = 0; i < hashBytes.Length; i++)
+	{
+		hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, "0"[0]);
+	}
+ 
+	return hashString.PadLeft(32, "0"[0]);
 }

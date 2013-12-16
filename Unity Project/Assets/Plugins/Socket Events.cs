@@ -24,19 +24,20 @@ public class SocketEvents {
 			ws.OnMessage += (sender, e) =>
 			{
 				messages.AddLast(e.Data);
-				Debug.Log (e.Data);
+				//Debug.Log (e.Data);
 			};
 
 			ws.OnError += (sender, e) =>
 			{
-				Debug.Log("Error: " + e.Message);
+				Debug.Log("Connection error: " + e.Message);
 			};
 
 			ws.OnClose += (sender, e) =>
 			{
-				Debug.Log("Closed: " + e.Reason);
-				//attempt a reconnect
-				ws.Connect ();
+				Debug.Log("Connection closed. Attempting to reconnect…");
+
+				//reconnect
+				ws.Connect();
 
 			};
 			
@@ -63,7 +64,7 @@ public class SocketEvents {
 
 	public void SendMessage(string msg) {
 		ws.Send(msg);
-		Debug.Log ("Message '" + msg + "' sent");
+		//Debug.Log ("Message '" + msg + "' sent");
 	}
 
 
