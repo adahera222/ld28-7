@@ -15,12 +15,26 @@ public class SocketEvents {
 			
 			ws.OnOpen += (sender, e) =>
 			{
-				Debug.Log("Connection Opened!");
+				Debug.Log("Connection opened");
 			};
 			
 			ws.OnMessage += (sender, e) =>
 			{
 				messages.AddLast(e.Data);
+				Debug.Log (e.Data);
+			};
+
+			ws.OnError += (sender, e) =>
+			{
+				Debug.Log("Error: " + e.Message);
+			};
+
+			ws.OnClose += (sender, e) =>
+			{
+				Debug.Log("Closed: " + e.Reason);
+				//attempt a reconnect
+				ws.Connect ();
+
 			};
 			
 			ws.Connect ();
@@ -30,6 +44,10 @@ public class SocketEvents {
 
 	public bool MessagesReady() {
 		return messages.Count > 0;
+	}
+
+	public bool SocketAlive() {
+		return ws.IsAlive;
 	}
 
 	public string FetchLastMessage() {

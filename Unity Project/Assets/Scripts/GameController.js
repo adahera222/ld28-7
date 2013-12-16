@@ -2,7 +2,7 @@
 import SocketEvents;
 
 var blockOfTheDay = "sand";
-var se:SocketEvents;
+var socket:SocketEvents;
 
 function Start () {
 	//init function
@@ -77,18 +77,20 @@ function Update () {
 	}
 	
 	//fetches new messages from websocket
-	while(se.MessagesReady()) {
+	while(socket.MessagesReady()) {
 		
-		var message = JSON.Parse(se.FetchLastMessage());
+		var message = JSON.Parse(socket.FetchLastMessage());
 		var welcome = message[0][0];
 		var object = message[0][1];
 		
 		//handle message
 		
 		
-		Debug.Log(welcome);
+		Debug.Log(message);
 		
 	}
+	
+	//Debug.Log(socket.SocketAlive());
 
 }
 
@@ -207,7 +209,7 @@ function blockTexture(type) {
 
 function sendBlock() {
 
-	se.se
+	socket.SendMessage('SEND MY BLOCK PLS');
 
 }
 
@@ -236,6 +238,6 @@ function changeType() {
 
 function connectToWebSocket() {
 	
-	se = new SocketEvents();
+	socket = new SocketEvents();
 	
 }
