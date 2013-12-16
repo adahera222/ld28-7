@@ -9,7 +9,7 @@ function Start () {
 
 	connectToWebSocket();
 	LoadWorld(BuildWorld);
-	LoadBlockOfTheDay(SetBlockOfTheDay);
+	//LoadBlockOfTheDay(SetBlockOfTheDay);
 
 }
 
@@ -63,10 +63,12 @@ function Update () {
 		var translate = crosshair.transform.position;
 
 		if(Input.GetMouseButtonDown(0)) {
-			AddBlock(translate, texture);
+			sendBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
+			//AddBlock(translate, texture);
 		}
 
 		if(Input.GetMouseButtonDown(1)) {
+			removeBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
 			Destroy(targetCube);
 		}
 
@@ -78,15 +80,52 @@ function Update () {
 	
 	//fetches new messages from websocket
 	while(socket.MessagesReady()) {
-		
-		var message = JSON.Parse(socket.FetchLastMessage());
-		var welcome = message[0][0];
-		var object = message[0][1];
+
 		
 		//handle message
 		
+		var message = JSON.Parse(socket.FetchLastMessage());
 		
 		Debug.Log(message);
+		
+		var action:String = message['action'];
+		
+		Debug.Log(action);
+		
+		switch(action) {
+		
+			case "welcome" :
+			
+				Debug.Log("Action WELCOME initiated");
+				
+				break;
+				
+			case "add_block" :
+			
+				Debug.Log("Action ADD BLOCK initiated");
+				
+				var pos = new Vector3(message['params']['x'].AsFloat, message['params']['y'].AsFloat, message['params']['z'].AsFloat);
+				var skin = blockTexture(blockOfTheDay);
+				AddBlock(pos, skin);
+				
+				break;
+				
+			case "delete_block" :
+			
+				Debug.Log("Action REMOVE BLOCK initiated");
+				
+				break;
+			
+			default: 
+			
+				Debug.Log("Unknown action");
+			
+				break;
+		
+		}
+		
+		//Debug.Log("Action: " + action);
+		//Debug.Log("Params: " + params);
 		
 	}
 	
@@ -190,6 +229,8 @@ function AddBlock(translate:UnityEngine.Vector3, texture:UnityEngine.Texture) {
 	block.AddComponent("MeshCollider"); //add mesh collider instead
 
 	var behaviour = block.GetComponent("BlockEntity");
+	
+	//sendBlock(parseInt(translate.x), parseInt(translate.y), parseInt(translate.z));
 
 }
 
@@ -207,9 +248,15 @@ function blockTexture(type) {
 
 }
 
-function sendBlock() {
+function sendBlock(x:int, y:int, z:int) {
 
-	socket.SendMessage('SEND MY BLOCK PLS');
+	socket.SendMessage('{"action":"add_block","params":{"x":'+ x +',"y":'+ y +',"z":'+ z +'}}');
+
+}
+
+function removeBlock(x:int, y:int, z:int) {
+
+	socket.SendMessage('{"action":"remove_block","params":{"x":'+ x +',"y":'+ y +',"z":'+ z +'}}');;
 
 }
 

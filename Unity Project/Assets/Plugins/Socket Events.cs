@@ -9,8 +9,11 @@ public class SocketEvents {
 
 	private WebSocket ws;
 
+	//using (ws = new WebSocket ("ws://172.20.10.5:5000/chat"))
+	//using (ws = new WebSocket ("ws://palikka.koodimonni.fi/chat"))
+
 	public SocketEvents () {
-		using (ws = new WebSocket ("ws://palikka.koodimonni.fi/websocket"))
+		using (ws = new WebSocket ("ws://172.20.10.5:5000/chat"))
 		{
 			
 			ws.OnOpen += (sender, e) =>
