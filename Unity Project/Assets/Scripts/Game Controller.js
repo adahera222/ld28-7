@@ -222,8 +222,9 @@ function BuildWorld(worldData) {
 	*/
 	
 	for(var block:SimpleJSON.JSONNode in worldData) {
-
-		texture = BlockTexture('sand');
+	
+		var blocktype:String = block['oftype'];
+		texture = BlockTexture(blocktype);
 		translate = Vector3(block['x'].AsFloat, block['y'].AsFloat, block['z'].AsFloat);
 
 		AddBlock(translate, texture);
