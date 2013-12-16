@@ -77,54 +77,61 @@ function Update () {
 		changeType();
 	}
 	
+	if(Input.GetKey(KeyCode.Escape)) {
+        Application.Quit();
+    }
+	
 	//fetches new messages from websocket
 	while(socket.MessagesReady()) {
 
 		
 		//handle message
 		
-		var message = JSON.Parse(socket.FetchLastMessage());
+		var message = socket.FetchLastMessage();
 		
 		Debug.Log(message);
 		
-		var action:String = message['action'];
+		var json = JSON.Parse(message);
 		
-		Debug.Log(action);
+		//check if it was valid json
+		if(json != null) {
 		
-		switch(action) {
-		
-			case "welcome" :
+			var action:String = json['action'];
 			
-				Debug.Log("Action WELCOME initiated");
-				
-				break;
-				
-			case "add_block" :
+			switch(action) {
 			
-				Debug.Log("Action ADD BLOCK initiated");
+				case "welcome" :
 				
-				var pos = new Vector3(message['params']['x'].AsFloat, message['params']['y'].AsFloat, message['params']['z'].AsFloat);
-				var skin = blockTexture(blockOfTheDay);
-				AddBlock(pos, skin);
+					var block:String = json['params']['block'];
+					SetBlockOfTheDay(block);
+					
+					Debug.Log("Block of the day is: " + block);
+					
+					break;
+					
+				case "add_block" :
+					
+					var pos = new Vector3(json['params']['x'].AsFloat, json['params']['y'].AsFloat, json['params']['z'].AsFloat);
+					var skin = blockTexture(blockOfTheDay);
+					AddBlock(pos, skin);
+					
+					break;
+					
+				case "delete_block" :
 				
-				break;
+					Debug.Log("Action REMOVE BLOCK initiated");
+					
+					break;
 				
-			case "delete_block" :
-			
-				Debug.Log("Action REMOVE BLOCK initiated");
+				default: 
 				
-				break;
+					Debug.Log("Unknown action");
+				
+					break;
 			
-			default: 
-			
-				Debug.Log("Unknown action");
-			
-				break;
+			}
 		
 		}
-		
-		//Debug.Log("Action: " + action);
-		//Debug.Log("Params: " + params);
 		
 	}
 	
@@ -132,6 +139,7 @@ function Update () {
 
 }
 
+//deprecated: uses websocket connection welcome message instead
 function LoadBlockOfTheDay(callback) {
 	var url = "http://palikka.koodimonni.fi/blocks/typetoday.json";
 	var response = new WWW(url);
@@ -147,7 +155,7 @@ function SetBlockOfTheDay(type) {
 
 	GameObject.Find("Spinning Block").renderer.material.mainTexture = blockTexture(type); //assigns it a texture
 	GameObject.Find("Spinning Block").renderer.enabled = true;
-	GameObject.Find("Block Type").guiText.text = type;
+	GameObject.Find("Block Type").GetComponent(TextMesh).text = type;
 
 }
 
